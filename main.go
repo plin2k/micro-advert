@@ -49,7 +49,7 @@ func main() {
 	router := gin.Default()
 
 	router.LoadHTMLGlob("templates/*")
-	
+
 	router.StaticFile("/style.css", "resources/style.css")
 	router.StaticFile("/script.js", "resources/script.js")
 
@@ -57,7 +57,10 @@ func main() {
 	router.POST("/publish", publish)
 
 	//http.ListenAndServe(":8080", CSRF(router))
-	router.Run()
+	err := router.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func index(c *gin.Context) {
@@ -94,7 +97,7 @@ func publish(c *gin.Context) {
 func pushAdvert(ch <-chan Advert) {
 
 	for val := range ch {
-		advertList = append(Adverts{val}, advertList[0:maxItems-2]...)
+		advertList = append(Adverts{val}, advertList[0:maxItems-1]...)
 
 		log.Println(cap(advertList), len(advertList))
 	}

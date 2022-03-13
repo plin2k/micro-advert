@@ -1,0 +1,5 @@
+vendor
+.git
+Dockerfile
+.idea
+.env
